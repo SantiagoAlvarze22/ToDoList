@@ -1,18 +1,28 @@
 import React,{Component} from 'react';
 import './App.css';
 
-
-class App extends Component {adjnakj
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
        newTask: "",
-    }
+       tasks: []
+    };
  }
 
  handleTaskChange = (event) => {
    this.setState({
      newTask: event.target.value
+   })
+ }
+
+ handleSubmit = (event) => {
+   event.preventDefault();
+   let newTasks = this.state.tasks;
+   newTasks.push(this.state.newTask)
+   this.setState({
+     newTask:"",
+     tasks:newTasks
    })
  }
 
@@ -22,11 +32,26 @@ class App extends Component {adjnakj
    <h1 className="title">
       Hello world <span aria-label="emoji" role="img">🔥</span>
    </h1>
-   <input onChange={this.handleTaskChange} type="text" className="new-task"/>
+
+   <form onSubmit = {this.handleSubmit}>
+    <input 
+        value = {this.state.newTask}
+        onChange={this.handleTaskChange} 
+        type="text" 
+        className="new-task"
+      />
+   </form>
+
    <h2 className="test-label">{this.state.newTask}</h2>
-   <h3 className="test-label">{this.state.newTask}</h3>
-   <h4 className="test-label">{this.state.newTask}</h4>
-   <h5 className="test-label">{this.state.newTask}</h5>
+
+    {
+      this.state.tasks.map(task => 
+        <div className="task-container">
+          <h3 className="task">{task}</h3>
+        </div>
+      )
+    }
+
   </div>
   );
 }
