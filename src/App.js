@@ -1,5 +1,9 @@
 import React,{Component} from 'react';
 import './App.css';
+import Title from './components/title';
+import Layout from './components/layout'
+import TaskList from './components/task-list';
+import Input from './components/input'
 
 class App extends Component {
   constructor(props) {
@@ -26,34 +30,29 @@ class App extends Component {
    })
  }
 
+ handleDelete = (id) => {
+   let newTasks = this.state.tasks;
+   newTasks.splice(id,1)
+   this.setState({
+     tasks: newTasks,
+   })
+ }
+
  render() {
   return (
-    <div className="container">
-   <h1 className="title">
-      Hello world <span aria-label="emoji" role="img">🔥</span>
-   </h1>
-
-   <form onSubmit = {this.handleSubmit}>
-    <input 
-        value = {this.state.newTask}
-        onChange={this.handleTaskChange} 
-        type="text" 
-        className="new-task"
+    <Layout>
+      <Title/>
+      <Input
+        handleSubmit = {this.handleSubmit}
+        handleTaskChange ={this.handleTaskChange}
+        value={this.state.newTask}
       />
-   </form>
-
-   <h2 className="test-label">{this.state.newTask}</h2>
-
-    {
-      this.state.tasks.map(task => 
-        <div className="task-container">
-          <h3 className="task">{task}</h3>
-        </div>
-      )
-    }
-
-  </div>
-  );
-}
+      <TaskList 
+        tasks = {this.state.tasks}
+        handleDelete ={this.handleDelete}
+      />
+    </Layout>
+    );
+  }
 }
 export default App;
